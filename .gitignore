@@ -1,0 +1,10 @@
+# Estado local y plugins instalados
+.local/
+session/
+swap/
+undo/
+backup/
+
+# Neovim/Lazy/mason data
+lazy-lock.json
+mason/
