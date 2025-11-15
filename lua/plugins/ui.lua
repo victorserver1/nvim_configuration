@@ -1,19 +1,23 @@
 return {
 	-- Notificaciones bonitas
+	-- Noice: UI para mensajes, cmdline y popupmenu
+	--
 	{
 		"rcarriga/nvim-notify",
-		opts = {
-			stages = "fade_in_slide_out",
-			timeout = 3000,
-			render = "default",
-		},
-		init = function()
-			-- Usar nvim-notify como sistema de notificaciones por defecto
-			vim.notify = require("notify")
+		lazy = false, -- para que cargue pronto
+		config = function()
+			local notify = require("notify")
+
+			notify.setup({
+				timeout = 100000, -- ~100 segundos, súbelo si quieres
+				stages = "static", -- sin animaciones raras
+				-- si quieres moverlas:
+				-- top_down = true,  -- true = de arriba hacia abajo
+			})
+
+			vim.notify = notify
 		end,
 	},
-
-	-- Noice: UI para mensajes, cmdline y popupmenu
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
@@ -36,6 +40,18 @@ return {
 				long_message_to_split = true,
 				inc_rename = false,
 				lsp_doc_border = true, -- borde alrededor del hover de LSP
+			},
+			views = {
+				-- vista "notify" (la que usa nvim-notify por debajo)
+				notify = {
+					-- que dure un montón
+					timeout = 10000,
+					replace = true, -- reutiliza la ventana en vez de spamear
+				},
+				-- vista "mini" (las notis chiquitas que se van volando)
+				mini = {
+					timeout = 10000, -- o 0 si quieres que no se vaya nunca
+				},
 			},
 		},
 	},
